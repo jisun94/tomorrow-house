@@ -1,5 +1,4 @@
 .product-carousel {
-  margin-bottom: 40px;
   position: relative;
 
   &-slider {
@@ -44,6 +43,7 @@
   }
 
   @include responsive(T) {
+    margin-bottom: 40px;
     padding-right: 30px;
 
     &-slider {
