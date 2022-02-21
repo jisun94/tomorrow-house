@@ -6,10 +6,17 @@ const deleteAllButton = gnbSearchHistory.querySelector(
   '.search-history-header button'
 );
 
+const deleteButtonList =
+  gnbSearchHistoryList.querySelectorAll('.delete-button');
+
+function close() {
+  gnbSearchHistory.classList.remove('is-active');
+  window.removeEventListener('click', closeGnbSearchHistory);
+}
+
 function closeGnbSearchHistory(e) {
   if (!gnbSearch.contains(e.target)) {
-    gnbSearchHistory.classList.remove('is-active');
-    window.removeEventListener('click', closeGnbSearchHistory);
+    close();
   }
 }
 
@@ -26,9 +33,23 @@ function openGnbSearchHistory() {
 
 function deleteAllSearchHistory() {
   gnbSearchHistoryList.innerHTML = '';
-  gnbSearchHistory.classList.remove('is-active');
+  close();
 }
 
 gnbSearchInput.addEventListener('focus', openGnbSearchHistory);
 
 deleteAllButton.addEventListener('click', deleteAllSearchHistory);
+
+function deleteSearhHistoryItem(e) {
+  e.stopPropagation();
+  const item = this.parentNode;
+  gnbSearchHistoryList.removeChild(item);
+
+  if (gnbSearchHistoryList.children.length === 0) {
+    close();
+  }
+}
+
+deleteButtonList.forEach((button) => {
+  button.addEventListener('click', deleteSearhHistoryItem);
+});
